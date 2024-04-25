@@ -532,11 +532,13 @@ type IncomeStatementGrowth struct {
 
 // BalanceSheetStatement ...
 type BalanceSheetStatement struct {
-	Date                                    string  `json:"date" csv:"date"`
 	Symbol                                  string  `json:"symbol" csv:"symbol"`
+	Date                                    string  `json:"date" csv:"date"`
 	ReportedCurrency                        string  `json:"reportedCurrency" csv:"reportedCurrency"`
+	Cik                                     string  `json:"cik" csv:"cik"`
 	FillingDate                             string  `json:"fillingDate" csv:"fillingDate"`
 	AcceptedDate                            string  `json:"acceptedDate" csv:"acceptedDate"`
+	CalendarYear                            string  `json:"calendarYear" csv:"calendarYear"`
 	Period                                  string  `json:"period" csv:"period"`
 	CashAndCashEquivalents                  float64 `json:"cashAndCashEquivalents" csv:"cashAndCashEquivalents"`
 	ShortTermInvestments                    float64 `json:"shortTermInvestments" csv:"shortTermInvestments"`
@@ -568,6 +570,7 @@ type BalanceSheetStatement struct {
 	TotalNonCurrentLiabilities              float64 `json:"totalNonCurrentLiabilities" csv:"totalNonCurrentLiabilities"`
 	OtherLiabilities                        float64 `json:"otherLiabilities" csv:"otherLiabilities"`
 	TotalLiabilities                        float64 `json:"totalLiabilities" csv:"totalLiabilities"`
+	PreferredStock                          float64 `json:"preferredStock" csv:"preferredStock"`
 	CommonStock                             float64 `json:"commonStock" csv:"commonStock"`
 	RetainedEarnings                        float64 `json:"retainedEarnings" csv:"retainedEarnings"`
 	AccumulatedOtherComprehensiveIncomeLoss float64 `json:"accumulatedOtherComprehensiveIncomeLoss" csv:"accumulatedOtherComprehensiveIncomeLoss"`
@@ -579,6 +582,9 @@ type BalanceSheetStatement struct {
 	NetDebt                                 float64 `json:"netDebt" csv:"netDebt"`
 	Link                                    string  `json:"link" csv:"link"`
 	FinalLink                               string  `json:"finalLink" csv:"finalLink"`
+	MinorityInterest                        float64 `json:"minorityInterest" csv:"minorityInterest"`
+	CapitalLeaseObligations                 float64 `json:"capitalLeaseObligations" csv:"capitalLeaseObligations"`
+	TotalEquity                             float64 `json:"totalEquity" csv:"totalEquity"`
 }
 
 // BalanceSheetStatementGrowth ...
