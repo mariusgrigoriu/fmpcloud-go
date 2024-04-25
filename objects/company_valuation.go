@@ -459,11 +459,11 @@ type ETFCountryWeighting struct {
 type IncomeStatement struct {
 	Date                                    string  `json:"date" csv:"date"`
 	Symbol                                  string  `json:"symbol" csv:"symbol"`
-	FillingDate                             string  `json:"fillingDate" csv:"fillingDate"`
-	Cik                                     string  `json:"cik" csv:"cik"`
-	CalendarYear                            string  `json:"calendarYear" csv:"calendarYear"`
 	ReportedCurrency                        string  `json:"reportedCurrency" csv:"reportedCurrency"`
+	Cik                                     string  `json:"cik" csv:"cik"`
+	FillingDate                             string  `json:"fillingDate" csv:"fillingDate"`
 	AcceptedDate                            string  `json:"acceptedDate" csv:"acceptedDate"`
+	CalendarYear                            string  `json:"calendarYear" csv:"calendarYear"`
 	Period                                  string  `json:"period" csv:"period"`
 	Revenue                                 float64 `json:"revenue" csv:"revenue"`
 	CostOfRevenue                           float64 `json:"costOfRevenue" csv:"costOfRevenue"`
@@ -494,6 +494,7 @@ type IncomeStatement struct {
 	WeightedAverageShsOutDil                float64 `json:"weightedAverageShsOutDil" csv:"weightedAverageShsOutDil"`
 	Link                                    string  `json:"link" csv:"link"`
 	FinalLink                               string  `json:"finalLink" csv:"finalLink"`
+	InterestIncome                          float64 `json:"interestIncome" csv:"interestIncome"`
 }
 
 // IncomeStatementGrowth ...
