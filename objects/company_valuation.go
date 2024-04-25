@@ -639,10 +639,12 @@ type BalanceSheetStatementGrowth struct {
 type CashFlowStatement struct {
 	Date                                     string  `json:"date" csv:"date"`
 	Symbol                                   string  `json:"symbol" csv:"symbol"`
+	ReportedCurrency                         string  `json:"reportedCurrency" csv:"reportedCurrency"`
+	Cik                                      string  `json:"cik" csv:"cik"`
 	FillingDate                              string  `json:"fillingDate" csv:"fillingDate"`
 	AcceptedDate                             string  `json:"acceptedDate" csv:"acceptedDate"`
+	CalendarYear                             string  `json:"calendarYear" csv:"calendarYear"`
 	Period                                   string  `json:"period" csv:"period"`
-	ReportedCurrency                         string  `json:"reportedCurrency" csv:"reportedCurrency"`
 	NetIncome                                float64 `json:"netIncome" csv:"netIncome"`
 	DepreciationAndAmortization              float64 `json:"depreciationAndAmortization" csv:"depreciationAndAmortization"`
 	DeferredIncomeTax                        float64 `json:"deferredIncomeTax" csv:"deferredIncomeTax"`
