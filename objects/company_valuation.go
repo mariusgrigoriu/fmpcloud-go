@@ -463,7 +463,7 @@ type IncomeStatement struct {
 	Cik                                     string  `json:"cik" csv:"cik"`
 	FillingDate                             string  `json:"fillingDate" csv:"fillingDate"`
 	AcceptedDate                            string  `json:"acceptedDate" csv:"acceptedDate"`
-	CalendarYear                            string  `json:"calendarYear" csv:"calendarYear"`
+	CalendarYear                            int     `json:"calendarYear" csv:"calendarYear"`
 	Period                                  string  `json:"period" csv:"period"`
 	Revenue                                 float64 `json:"revenue" csv:"revenue"`
 	CostOfRevenue                           float64 `json:"costOfRevenue" csv:"costOfRevenue"`
@@ -539,7 +539,7 @@ type BalanceSheetStatement struct {
 	Cik                                     string  `json:"cik" csv:"cik"`
 	FillingDate                             string  `json:"fillingDate" csv:"fillingDate"`
 	AcceptedDate                            string  `json:"acceptedDate" csv:"acceptedDate"`
-	CalendarYear                            string  `json:"calendarYear" csv:"calendarYear"`
+	CalendarYear                            int     `json:"calendarYear" csv:"calendarYear"`
 	Period                                  string  `json:"period" csv:"period"`
 	CashAndCashEquivalents                  float64 `json:"cashAndCashEquivalents" csv:"cashAndCashEquivalents"`
 	ShortTermInvestments                    float64 `json:"shortTermInvestments" csv:"shortTermInvestments"`
@@ -643,7 +643,7 @@ type CashFlowStatement struct {
 	Cik                                      string  `json:"cik" csv:"cik"`
 	FillingDate                              string  `json:"fillingDate" csv:"fillingDate"`
 	AcceptedDate                             string  `json:"acceptedDate" csv:"acceptedDate"`
-	CalendarYear                             string  `json:"calendarYear" csv:"calendarYear"`
+	CalendarYear                             int     `json:"calendarYear" csv:"calendarYear"`
 	Period                                   string  `json:"period" csv:"period"`
 	NetIncome                                float64 `json:"netIncome" csv:"netIncome"`
 	DepreciationAndAmortization              float64 `json:"depreciationAndAmortization" csv:"depreciationAndAmortization"`
