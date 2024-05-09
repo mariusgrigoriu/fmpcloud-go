@@ -19,6 +19,7 @@ type Config struct {
 	APIKey        string
 	APIUrl        APIUrl
 	Debug         bool
+	RateLimiter   resty.RateLimiter
 	RetryCount    *int
 	RetryWaitTime *time.Duration
 	Timeout       int
@@ -72,6 +73,7 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 
 	cfg.HTTPClient.SetDebug(APIClient.Debug)
 	cfg.HTTPClient.SetTimeout(time.Duration(cfg.Timeout) * time.Second)
+	cfg.HTTPClient.SetRateLimiter(cfg.RateLimiter)
 
 	// Check set APIUrl param
 	if len(cfg.APIUrl) == 0 {
