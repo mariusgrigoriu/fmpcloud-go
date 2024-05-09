@@ -11,4 +11,5 @@ require (
 	github.com/pkg/errors v0.9.1
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0
+	golang.org/x/time v0.5.0 // indirect
 )

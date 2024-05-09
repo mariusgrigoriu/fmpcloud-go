@@ -1,12 +1,14 @@
 package fmpcloud
 
 import (
+	"math"
 	"time"
 
 	"github.com/go-resty/resty/v2"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"golang.org/x/time/rate"
 )
 
 // APIUrl type for api url
@@ -19,7 +21,7 @@ type Config struct {
 	APIKey        string
 	APIUrl        APIUrl
 	Debug         bool
-	RateLimiter   resty.RateLimiter
+	RateLimiter   *rate.Limiter
 	RetryCount    *int
 	RetryWaitTime *time.Duration
 	Timeout       int
@@ -73,7 +75,6 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 
 	cfg.HTTPClient.SetDebug(APIClient.Debug)
 	cfg.HTTPClient.SetTimeout(time.Duration(cfg.Timeout) * time.Second)
-	cfg.HTTPClient.SetRateLimiter(cfg.RateLimiter)
 
 	// Check set APIUrl param
 	if len(cfg.APIUrl) == 0 {
@@ -86,6 +87,11 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 	}
 
 	cfg.HTTPClient.SetHostURL(string(cfg.APIUrl))
+
+	limiter := cfg.RateLimiter
+	if limiter == nil {
+		limiter = rate.NewLimiter(rate.Limit(math.Inf(0)), 1)
+	}
 
 	HTTPClient := &HTTPClient{
 		client: cfg.HTTPClient,
