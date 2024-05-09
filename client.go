@@ -94,9 +94,10 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 	}
 
 	HTTPClient := &HTTPClient{
-		client: cfg.HTTPClient,
-		apiKey: cfg.APIKey,
-		logger: APIClient.Logger,
+		client:      cfg.HTTPClient,
+		apiKey:      cfg.APIKey,
+		logger:      APIClient.Logger,
+		rateLimiter: limiter,
 	}
 
 	if cfg.RetryCount != nil {
