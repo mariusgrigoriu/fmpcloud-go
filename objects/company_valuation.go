@@ -472,7 +472,7 @@ type IncomeStatement struct {
 	ResearchAndDevelopmentExpenses          float64 `json:"researchAndDevelopmentExpenses" csv:"ResearchAndDevelopmentExpenses"`
 	GeneralAndAdministrativeExpenses        float64 `json:"generalAndAdministrativeExpenses" csv:"GeneralAndAdministrativeExpenses"`
 	SellingAndMarketingExpenses             float64 `json:"sellingAndMarketingExpenses" csv:"SellingAndMarketingExpenses"`
-	SellingGeneralAndAdministrativeExpenses float64 `json:"sellingGeneralAndAdministrativeExpenses" csv:"sellingGeneralAndAdministrativeExpenses"`
+	SellingGeneralAndAdministrativeExpenses float64 `json:"sellingGeneralAndAdministrativeExpenses" csv:"SellingGeneralAndAdministrativeExpenses"`
 	OtherExpenses                           float64 `json:"otherExpenses" csv:"otherExpenses"`
 	OperatingExpenses                       float64 `json:"operatingExpenses" csv:"operatingExpenses"`
 	CostAndExpenses                         float64 `json:"costAndExpenses" csv:"costAndExpenses"`
@@ -655,7 +655,7 @@ type CashFlowStatement struct {
 	AccountsPayables                         float64 `json:"accountsPayables" csv:"accountsPayables"`
 	OtherWorkingCapital                      float64 `json:"otherWorkingCapital" csv:"otherWorkingCapital"`
 	OtherNonCashItems                        float64 `json:"otherNonCashItems" csv:"otherNonCashItems"`
-	NetCashProvidedByOperatingActivities     float64 `json:"netCashProvidedByOperatingActivities" csv:"netCashProvidedByOperatingActivities"`
+	NetCashProvidedByOperatingActivities     float64 `json:"netCashProvidedByOperatingActivities" csv:"netCashProvidedByOperatingActivites"`
 	InvestmentsInPropertyPlantAndEquipment   float64 `json:"investmentsInPropertyPlantAndEquipment" csv:"investmentsInPropertyPlantAndEquipment"`
 	AcquisitionsNet                          float64 `json:"acquisitionsNet" csv:"acquisitionsNet"`
 	PurchasesOfInvestments                   float64 `json:"purchasesOfInvestments" csv:"purchasesOfInvestments"`
