@@ -32,6 +32,10 @@ func (h *HTTPClient) Get(endpoint string, data map[string]string) (response *res
 
 	retries := 0
 	for retries < *h.retryCount {
+		if retries > 0 {
+			time.Sleep(*h.retryWaitTime)
+		}
+
 		le := h.rateLimiter.Wait(context.Background())
 		if le != nil {
 			err = fmt.Errorf("wait: %v", le)
@@ -43,7 +47,6 @@ func (h *HTTPClient) Get(endpoint string, data map[string]string) (response *res
 			Get(endpoint)
 
 		if err != nil || response.StatusCode() != http.StatusOK {
-			time.Sleep(*h.retryWaitTime)
 			retries++
 
 			// response is not valid when there is an error
