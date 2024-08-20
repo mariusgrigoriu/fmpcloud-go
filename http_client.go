@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-resty/resty/v2"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"golang.org/x/time/rate"
 )
 
@@ -50,17 +49,14 @@ func (h *HTTPClient) Get(endpoint string, data map[string]string) (response *res
 			retries++
 
 			// response is not valid when there is an error
-			var errOrStatusCode zapcore.Field
-			if err != nil {
-				errOrStatusCode = zap.Error(err)
-			} else {
-				errOrStatusCode = zap.Int("statusCode", response.StatusCode())
+			if err == nil {
+				err = fmt.Errorf("http %s", response.Status())
 			}
 
 			h.logger.Info(
 				"Retry request.",
 				zap.Int("retries", retries),
-				errOrStatusCode,
+				zap.Error(err),
 				zap.String("endpoint", endpoint),
 				zap.Any("data", data),
 			)
