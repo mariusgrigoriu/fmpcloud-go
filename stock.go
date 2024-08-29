@@ -579,8 +579,9 @@ func (s *Stock) EODBatchPrices(date time.Time) (sList []objects.StockEODCandle, 
 	if err != nil {
 		return nil, err
 	}
+	defer data.RawBody().Close()
 
-	err = gocsv.UnmarshalBytes(data.Body(), &sList)
+	err = gocsv.Unmarshal(data.RawBody(), &sList)
 	if err != nil {
 		return nil, err
 	}

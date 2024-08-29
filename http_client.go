@@ -24,6 +24,10 @@ type HTTPClient struct {
 
 // Get ...
 func (h *HTTPClient) Get(endpoint string, queryParams map[string]string) (response *resty.Response, err error) {
+	return h.get(endpoint, queryParams, false)
+}
+
+func (h *HTTPClient) get(endpoint string, queryParams map[string]string, doNotParse bool) (response *resty.Response, err error) {
 	if queryParams == nil {
 		queryParams = make(map[string]string)
 	}
@@ -49,6 +53,7 @@ func (h *HTTPClient) Get(endpoint string, queryParams map[string]string) (respon
 		}
 
 		response, err = h.client.R().
+			SetDoNotParseResponse(doNotParse).
 			SetQueryParams(queryParams).
 			Get(endpoint)
 
@@ -80,5 +85,5 @@ func (h *HTTPClient) Get(endpoint string, queryParams map[string]string) (respon
 }
 
 func (h *HTTPClient) EODBatchPrices(date time.Time) (response *resty.Response, err error) {
-	return h.Get(urlAPIStockEODBatchPrices, map[string]string{"date": date.Format("2006-01-02")})
+	return h.get(urlAPIStockEODBatchPrices, map[string]string{"date": date.Format("2006-01-02")}, true)
 }
