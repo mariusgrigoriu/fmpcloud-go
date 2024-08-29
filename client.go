@@ -100,7 +100,7 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 		mainRateLimiter: limiter,
 	}
 
-	if limiter != nil {
+	if cfg.RateLimiter != nil {
 		HTTPClient.endpointRateLimiter = map[string]*rate.Limiter{
 			urlAPIStockEODBatchPrices: rate.NewLimiter(rate.Every(11*time.Second), 1),
 		}
