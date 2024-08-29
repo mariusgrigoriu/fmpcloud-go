@@ -575,7 +575,7 @@ func (s *Stock) PriceChangeBatch(symbolList []string) (sList []objects.StockPric
 
 // EODBatchPrices ...
 func (s *Stock) EODBatchPrices(date time.Time) (sList []objects.StockEODCandle, err error) {
-	data, err := s.Client.Get(urlAPIStockEODBatchPrices, map[string]string{"date": date.Format("2006-01-02")})
+	data, err := s.Client.EODBatchPrices(date)
 	if err != nil {
 		return nil, err
 	}

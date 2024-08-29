@@ -78,3 +78,7 @@ func (h *HTTPClient) Get(endpoint string, queryParams map[string]string) (respon
 
 	return response, err
 }
+
+func (h *HTTPClient) EODBatchPrices(date time.Time) (response *resty.Response, err error) {
+	return h.Get(urlAPIStockEODBatchPrices, map[string]string{"date": date.Format("2006-01-02")})
+}
