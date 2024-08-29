@@ -13,21 +13,22 @@ import (
 
 // HTTPClient ...
 type HTTPClient struct {
-	logger        *zap.Logger
-	client        *resty.Client
-	apiKey        string
-	rateLimiter   *rate.Limiter
-	retryCount    *int
-	retryWaitTime *time.Duration
+	logger              *zap.Logger
+	client              *resty.Client
+	apiKey              string
+	mainRateLimiter     *rate.Limiter
+	endpointRateLimiter map[string]*rate.Limiter
+	retryCount          *int
+	retryWaitTime       *time.Duration
 }
 
 // Get ...
-func (h *HTTPClient) Get(endpoint string, data map[string]string) (response *resty.Response, err error) {
-	if data == nil {
-		data = make(map[string]string)
+func (h *HTTPClient) Get(endpoint string, queryParams map[string]string) (response *resty.Response, err error) {
+	if queryParams == nil {
+		queryParams = make(map[string]string)
 	}
 
-	data["apikey"] = h.apiKey
+	queryParams["apikey"] = h.apiKey
 
 	retries := 0
 	for retries < *h.retryCount {
@@ -35,14 +36,20 @@ func (h *HTTPClient) Get(endpoint string, data map[string]string) (response *res
 			time.Sleep(*h.retryWaitTime)
 		}
 
-		le := h.rateLimiter.Wait(context.Background())
-		if le != nil {
-			err = fmt.Errorf("wait: %v", le)
+		endpointLimiter := h.endpointRateLimiter[endpoint]
+		if endpointLimiter != nil {
+			err = endpointLimiter.Wait(context.Background())
+		}
+		if err != nil {
+			return
+		}
+		err = h.mainRateLimiter.Wait(context.Background())
+		if err != nil {
 			return
 		}
 
 		response, err = h.client.R().
-			SetQueryParams(data).
+			SetQueryParams(queryParams).
 			Get(endpoint)
 
 		if err != nil || response.StatusCode() != http.StatusOK {
@@ -58,7 +65,7 @@ func (h *HTTPClient) Get(endpoint string, data map[string]string) (response *res
 				zap.Int("retries", retries),
 				zap.Error(err),
 				zap.String("endpoint", endpoint),
-				zap.Any("data", data),
+				zap.Any("data", queryParams),
 			)
 
 			continue

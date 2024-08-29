@@ -94,10 +94,16 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 	}
 
 	HTTPClient := &HTTPClient{
-		client:      cfg.HTTPClient,
-		apiKey:      cfg.APIKey,
-		logger:      APIClient.Logger,
-		rateLimiter: limiter,
+		client:          cfg.HTTPClient,
+		apiKey:          cfg.APIKey,
+		logger:          APIClient.Logger,
+		mainRateLimiter: limiter,
+	}
+
+	if limiter != nil {
+		HTTPClient.endpointRateLimiter = map[string]*rate.Limiter{
+			urlAPIStockEODBatchPrices: rate.NewLimiter(rate.Every(11*time.Second), 1),
+		}
 	}
 
 	if cfg.RetryCount != nil {
