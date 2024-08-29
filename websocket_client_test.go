@@ -7,20 +7,15 @@ import (
 
 func TestWebsocketClient(t *testing.T) {
 	websocketClient, err := NewWebsocketClient(WebsocketConfig{
-		APIKey:       "demo",
-		WebsocketUrl: WebsocketStock,
-		PingPongCfg: &PingPongConfig{
-			IsEnabled:  true,
-			PongWait:   DefaultPongWait,
-			PingPeriod: DefaultPingPeriod,
-		},
+		APIKey: "demo",
+		URL:    WebsocketStock,
 	})
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 
 	go func() {
-		err = websocketClient.RunReadLoop(func(event interface{}) error {
+		err = websocketClient.RunReadLoop(func(event Event) error {
 			t.Log("Got event: ", event)
 			return nil
 		})
