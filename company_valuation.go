@@ -1278,66 +1278,30 @@ func (c *CompanyValuation) BulkScores() (sList []objects.Score, err error) {
 }
 
 // BulkIncomeStatement ...
-func (c *CompanyValuation) BulkIncomeStatement(year int, period string) (pList []objects.IncomeStatement, err error) {
-	data, err := c.Client.Get(
-		urlAPICompanyValuationBulkIncomeStatement,
-		map[string]string{
-			"year":   fmt.Sprint(year),
-			"period": period,
-		})
-	if err != nil {
-		return nil, err
-	}
-
-	err = gocsv.UnmarshalBytes(data.Body(), &pList)
-	if err != nil {
-		return nil, err
-	}
-
-	return pList, nil
+func (c *CompanyValuation) BulkIncomeStatement(year int, period string) (sList []objects.IncomeStatement, err error) {
+	return bulkStatement[objects.IncomeStatement](year, period, c.Client.BulkIncomeStatement)
 }
 
 // BulkBalanceSheetStatement ...
 func (c *CompanyValuation) BulkBalanceSheetStatement(year int, period string) (sList []objects.BalanceSheetStatement, err error) {
-	data, err := c.Client.Get(
-		urlAPICompanyValuationBulkBalanceSheetStatement,
-		map[string]string{
-			"year":   fmt.Sprint(year),
-			"period": period,
-		})
-	if err != nil {
-		return nil, err
-	}
-
-	err = gocsv.UnmarshalBytes(data.Body(), &sList)
-	if err != nil {
-		return nil, err
-	}
-
-	return sList, nil
+	return bulkStatement[objects.BalanceSheetStatement](year, period, c.Client.BulkBalanceSheetStatement)
 }
 
-// BulkCashFlowStatement ...
 func (c *CompanyValuation) BulkCashFlowStatement(year int, period string) (sList []objects.CashFlowStatement, err error) {
-	data, err := c.Client.Get(
-		urlAPICompanyValuationBulkCashFlowStatement,
-		map[string]string{
-			"year":   fmt.Sprint(year),
-			"period": period,
-		})
-	if err != nil {
-		return nil, err
-	}
-
-	err = gocsv.UnmarshalBytes(data.Body(), &sList)
-	if err != nil {
-		return nil, err
-	}
-
-	return sList, nil
+	return bulkStatement[objects.CashFlowStatement](year, period, c.Client.BulkCashFlowStatement)
 }
 
-// BulkCashFlowStatement ...
+func bulkStatement[T objects.StatementTypes](year int, period string, fn StatementFn) (sList []T, err error) {
+	data, err := fn(year, period)
+	if err != nil {
+		return nil, err
+	}
+	defer data.RawBody().Close()
+
+	err = gocsv.Unmarshal(data.RawBody(), &sList)
+	return
+}
+
 func (c *CompanyValuation) BulkKeyMetrics(year int, period string) (sList []objects.KeyMetrics, err error) {
 	data, err := c.Client.Get(
 		urlAPICompanyValuationBulkKeyMetrics,

@@ -87,3 +87,26 @@ func (h *HTTPClient) get(endpoint string, queryParams map[string]string, doNotPa
 func (h *HTTPClient) EODBatchPrices(date time.Time) (response *resty.Response, err error) {
 	return h.get(urlAPIStockEODBatchPrices, map[string]string{"date": date.Format("2006-01-02")}, true)
 }
+
+func (h *HTTPClient) BulkBalanceSheetStatement(year int, period string) (response *resty.Response, err error) {
+	return h.get(urlAPICompanyValuationBulkBalanceSheetStatement, map[string]string{
+		"year":   fmt.Sprint(year),
+		"period": period,
+	}, true)
+}
+
+func (h *HTTPClient) BulkCashFlowStatement(year int, period string) (response *resty.Response, err error) {
+	return h.get(urlAPICompanyValuationBulkCashFlowStatement, map[string]string{
+		"year":   fmt.Sprint(year),
+		"period": period,
+	}, true)
+}
+
+func (h *HTTPClient) BulkIncomeStatement(year int, period string) (response *resty.Response, err error) {
+	return h.get(urlAPICompanyValuationBulkIncomeStatement, map[string]string{
+		"year":   fmt.Sprint(year),
+		"period": period,
+	}, true)
+}
+
+type StatementFn func(int, string) (*resty.Response, error)

@@ -531,6 +531,10 @@ type IncomeStatementGrowth struct {
 	GrowthWeightedAverageShsOutDil         float64 `json:"growthWeightedAverageShsOutDil"`
 }
 
+type StatementTypes interface {
+	BalanceSheetStatement | IncomeStatement | CashFlowStatement
+}
+
 // BalanceSheetStatement ...
 type BalanceSheetStatement struct {
 	Symbol                                  string  `json:"symbol" csv:"symbol"`
