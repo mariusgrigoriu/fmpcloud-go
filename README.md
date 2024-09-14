@@ -94,22 +94,12 @@ if err != nil {
 Example custom client:
 
 ```go
-// Init new instance for zap logger and config custom
-cfg := zap.NewProductionConfig()
-cfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder
-
-logger, err := cfg.Build()
-if err != nil {
-    return nil, errors.Wrap(err, "Logger Error: init")
-}
-
 // Init your custome API client
 APIClient, err := NewAPIClient(Config{
     APIKey:  "YOU_KEY",      // Set Your API Key from site, default: demo
     Debug:   true,           // Set flag for debug request and response, default: false
     Timeout: 60,             // Set timeout for http client, default: 25
     APIUrl:  APIFmpcloudURL, // Set custom url (APIFmpcloudURL || APIFinancialModelingPrepURL), default: APIFinancialModelingPrepURL
-    Logger:  logger,         // Set your (zap) logger, default: init new
 })
 
 if err != nil {

@@ -3,17 +3,17 @@ package fmpcloud
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"time"
 
 	"github.com/go-resty/resty/v2"
-	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 )
 
 // HTTPClient ...
 type HTTPClient struct {
-	logger              *zap.Logger
+	logger              *slog.Logger
 	client              *resty.Client
 	apiKey              string
 	mainRateLimiter     *rate.Limiter
@@ -67,10 +67,10 @@ func (h *HTTPClient) get(endpoint string, queryParams map[string]string, doNotPa
 
 			h.logger.Info(
 				"Retry request.",
-				zap.Int("retries", retries),
-				zap.Error(err),
-				zap.String("endpoint", endpoint),
-				zap.Any("data", queryParams),
+				"tries", retries,
+				"err", err,
+				"endpoint", endpoint,
+				"queryParams", queryParams,
 			)
 
 			continue

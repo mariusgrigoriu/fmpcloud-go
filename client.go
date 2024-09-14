@@ -1,13 +1,12 @@
 package fmpcloud
 
 import (
+	"log/slog"
 	"math"
 	"time"
 
 	"github.com/go-resty/resty/v2"
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"golang.org/x/time/rate"
 )
 
@@ -16,7 +15,7 @@ type APIUrl string
 
 // Config for create new API client
 type Config struct {
-	Logger        *zap.Logger
+	Logger        *slog.Logger
 	HTTPClient    *resty.Client
 	APIKey        string
 	APIUrl        APIUrl
@@ -39,7 +38,7 @@ type APIClient struct {
 	AlternativeData    *AlternativeData
 	Economics          *Economics
 	API                *API
-	Logger             *zap.Logger
+	Logger             *slog.Logger
 	Debug              bool
 }
 
@@ -139,14 +138,6 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 }
 
 // Create new logger
-func createNewLogger() (*zap.Logger, error) {
-	cfg := zap.NewProductionConfig()
-	cfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder
-
-	logger, err := cfg.Build()
-	if err != nil {
-		return nil, errors.Wrap(err, "Logger Error: init")
-	}
-
-	return logger, nil
+func createNewLogger() (*slog.Logger, error) {
+	return slog.Default(), nil
 }

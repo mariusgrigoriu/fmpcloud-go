@@ -1,10 +1,11 @@
 package fmpcloud
 
 import (
+	"log/slog"
+
 	"github.com/gorilla/websocket"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
 )
 
 // Core params
@@ -19,7 +20,7 @@ type WebsocketURL string
 
 // WebsocketConfig for create new Websocket client
 type WebsocketConfig struct {
-	Logger *zap.Logger
+	Logger *slog.Logger
 	APIKey string
 	URL    WebsocketURL
 	Debug  bool
@@ -29,7 +30,7 @@ type WebsocketConfig struct {
 type WebsocketClient struct {
 	conn   *websocket.Conn
 	apiKey string
-	logger *zap.Logger
+	logger *slog.Logger
 	debug  bool
 }
 
@@ -55,7 +56,7 @@ func NewWebsocketClient(cfg WebsocketConfig) (*WebsocketClient, error) {
 	if websocketClient.logger == nil {
 		logger, err := createNewLogger()
 		if err != nil {
-			return nil, errors.Wrap(err, "Error create new zap logger")
+			return nil, errors.Wrap(err, "Error create new logger")
 		}
 
 		websocketClient.logger = logger
@@ -124,8 +125,8 @@ func (w *WebsocketClient) RunReadLoop(fn func(event Event) error) error {
 		if err := jsoniter.Unmarshal(msg, &event); err != nil {
 			w.logger.Error(
 				"Can't unmarshal event",
-				zap.Error(err),
-				zap.Any("message", string(msg)),
+				"err", err,
+				"message", string(msg),
 			)
 
 			continue
