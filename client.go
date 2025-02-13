@@ -100,8 +100,12 @@ func NewAPIClient(cfg Config) (*APIClient, error) {
 	}
 
 	if cfg.RateLimiter != nil {
+		bulkLimiter := rate.NewLimiter(rate.Every(11*time.Second), 1)
 		HTTPClient.endpointRateLimiter = map[string]*rate.Limiter{
-			urlAPIStockEODBatchPrices: rate.NewLimiter(rate.Every(11*time.Second), 1),
+			urlAPIStockEODBatchPrices:                       bulkLimiter,
+			urlAPICompanyValuationBulkBalanceSheetStatement: bulkLimiter,
+			urlAPICompanyValuationBulkIncomeStatement:       bulkLimiter,
+			urlAPICompanyValuationBulkCashFlowStatement:     bulkLimiter,
 		}
 	}
 
