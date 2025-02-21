@@ -320,7 +320,7 @@ type StockEODCandle struct {
 	High     float64 `json:"high" csv:"high"`
 	Close    float64 `json:"close" csv:"close"`
 	AdjClose float64 `json:"adjClose" csv:"adjClose"`
-	Volume   int     `json:"volume" csv:"volume"`
+	Volume   float64 `json:"volume" csv:"volume"`
 }
 
 // Active ...
